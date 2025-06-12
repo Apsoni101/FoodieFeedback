@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:foodiefeedback/core/services/error/failure.dart';
 import 'package:foodiefeedback/feature/restaurants/domain/entities/restaurants_entity.dart';
@@ -10,10 +12,15 @@ abstract class RestaurantsRepository {
     final String id,
   );
 
-  Future<Either<Failure, List<RestaurantEntity>>> getAllRestaurants();
+  Stream<Either<Failure, List<RestaurantEntity>>> listenToAllRestaurants();
 
   Future<Either<Failure, Unit>> addReview(
     final String restaurantId,
     final ReviewEntity review,
   );
+
+  Future<Either<Failure, String>> addRestaurant({
+    required final RestaurantEntity restaurant,
+    final File? image,
+  });
 }

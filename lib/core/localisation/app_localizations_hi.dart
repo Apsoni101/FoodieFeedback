@@ -204,4 +204,66 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get noReviewsYet => 'अभी तक कोई समीक्षा नहीं';
+
+  @override
+  String get restaurantName => 'रेस्टोरेंट का नाम';
+
+  @override
+  String get errorRestaurantName => 'कृपया रेस्टोरेंट का नाम दर्ज करें';
+
+  @override
+  String get description => 'विवरण';
+
+  @override
+  String get errorDescription => 'कृपया विवरण दर्ज करें';
+
+  @override
+  String get address => 'पता';
+
+  @override
+  String get errorAddress => 'कृपया पता दर्ज करें';
+
+  @override
+  String get cuisine => 'खानपान का प्रकार';
+
+  @override
+  String get errorCuisine => 'कृपया खानपान का प्रकार दर्ज करें';
+
+  @override
+  String get currentlyOpen => 'अभी खुला है';
+
+  @override
+  String get restaurantImage => 'रेस्टोरेंट छवि';
+
+  @override
+  String get pickImage => 'छवि चुनें';
+
+  @override
+  String get changeImage => 'छवि बदलें';
+
+  @override
+  String get restaurantAdded => 'रेस्टोरेंट सफलतापूर्वक जोड़ा गया!';
+
+  @override
+  String get imageRequired => 'कृपया एक छवि चुनें';
+
+  @override
+  String get error => 'त्रुटि';
+
+  @override
+  String get addRestaurantTitle => 'रेस्टोरेंट जोड़ें';
+
+  @override
+  String get pleaseSelectImage => 'कृपया एक छवि चुनें';
+
+  @override
+  String get pleaseSpecifyOpenStatus => 'कृपया बताएं कि रेस्टोरेंट खुला है या नहीं';
+
+  @override
+  String get restaurantAddedSuccess => 'रेस्टोरेंट सफलतापूर्वक जोड़ा गया!';
+
+  @override
+  String errorMessage(Object message) {
+    return 'त्रुटि: $message';
+  }
 }

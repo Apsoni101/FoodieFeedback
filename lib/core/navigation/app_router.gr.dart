@@ -9,33 +9,52 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i10;
-import 'package:flutter/material.dart' as _i11;
-import 'package:foodiefeedback/core/navigation/routes/login_screen_router.dart' as _i3;
-import 'package:foodiefeedback/core/navigation/routes/restaurants_listing_router.dart'
-    as _i7;
-import 'package:foodiefeedback/feature/auth/presentation/pages/login_page.dart'
-    as _i2;
-import 'package:foodiefeedback/feature/auth/presentation/pages/register_page.dart'
+import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
+import 'package:foodiefeedback/core/navigation/routes/login_screen_router.dart'
     as _i4;
-import 'package:foodiefeedback/feature/restaurants/presentation/pages/add_review_page.dart'
-    as _i1;
-import 'package:foodiefeedback/feature/restaurants/presentation/pages/restaurants_detail_page.dart'
-    as _i5;
-import 'package:foodiefeedback/feature/restaurants/presentation/pages/restaurants_listing_page.dart'
-    as _i6;
-import 'package:foodiefeedback/feature/settings/presentation/pages/settings_page.dart'
+import 'package:foodiefeedback/core/navigation/routes/restaurants_listing_router.dart'
     as _i8;
-import 'package:foodiefeedback/feature/splash/presentation/pages/splash_page.dart'
+import 'package:foodiefeedback/feature/auth/presentation/pages/login_screen.dart'
+    as _i3;
+import 'package:foodiefeedback/feature/auth/presentation/pages/register_screen.dart'
+    as _i5;
+import 'package:foodiefeedback/feature/restaurants/presentation/pages/add_restaurant_screen.dart'
+    as _i1;
+import 'package:foodiefeedback/feature/restaurants/presentation/pages/add_review_screen.dart'
+    as _i2;
+import 'package:foodiefeedback/feature/restaurants/presentation/pages/restaurants_detail_screen.dart'
+    as _i6;
+import 'package:foodiefeedback/feature/restaurants/presentation/pages/restaurants_listing_screen.dart'
+    as _i7;
+import 'package:foodiefeedback/feature/settings/presentation/pages/settings_screen.dart'
     as _i9;
+import 'package:foodiefeedback/feature/splash/presentation/pages/splash_screen.dart'
+    as _i10;
 
 /// generated route for
-/// [_i1.AddReviewPage]
-class AddReviewRoute extends _i10.PageRouteInfo<AddReviewRouteArgs> {
+/// [_i1.AddRestaurantScreen]
+class AddRestaurantScreen extends _i11.PageRouteInfo<void> {
+  const AddRestaurantScreen({List<_i11.PageRouteInfo>? children})
+    : super(AddRestaurantScreen.name, initialChildren: children);
+
+  static const String name = 'AddRestaurantScreen';
+
+  static _i11.PageInfo page = _i11.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.AddRestaurantScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.AddReviewPage]
+class AddReviewRoute extends _i11.PageRouteInfo<AddReviewRouteArgs> {
   AddReviewRoute({
     required String restaurantId,
-    _i11.Key? key,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
          AddReviewRoute.name,
          args: AddReviewRouteArgs(restaurantId: restaurantId, key: key),
@@ -44,11 +63,11 @@ class AddReviewRoute extends _i10.PageRouteInfo<AddReviewRouteArgs> {
 
   static const String name = 'AddReviewRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<AddReviewRouteArgs>();
-      return _i1.AddReviewPage(restaurantId: args.restaurantId, key: args.key);
+      return _i2.AddReviewPage(restaurantId: args.restaurantId, key: args.key);
     },
   );
 }
@@ -58,7 +77,7 @@ class AddReviewRouteArgs {
 
   final String restaurantId;
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
@@ -77,12 +96,12 @@ class AddReviewRouteArgs {
 }
 
 /// generated route for
-/// [_i2.LoginPage]
-class LoginRoute extends _i10.PageRouteInfo<LoginRouteArgs> {
+/// [_i3.LoginPage]
+class LoginRoute extends _i11.PageRouteInfo<LoginRouteArgs> {
   LoginRoute({
-    _i11.Key? key,
-    _i11.VoidCallback? onLoggedIn,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    _i12.VoidCallback? onLoggedIn,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
          LoginRoute.name,
          args: LoginRouteArgs(key: key, onLoggedIn: onLoggedIn),
@@ -91,13 +110,13 @@ class LoginRoute extends _i10.PageRouteInfo<LoginRouteArgs> {
 
   static const String name = 'LoginRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<LoginRouteArgs>(
         orElse: () => const LoginRouteArgs(),
       );
-      return _i2.LoginPage(key: args.key, onLoggedIn: args.onLoggedIn);
+      return _i3.LoginPage(key: args.key, onLoggedIn: args.onLoggedIn);
     },
   );
 }
@@ -105,9 +124,9 @@ class LoginRoute extends _i10.PageRouteInfo<LoginRouteArgs> {
 class LoginRouteArgs {
   const LoginRouteArgs({this.key, this.onLoggedIn});
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
-  final _i11.VoidCallback? onLoggedIn;
+  final _i12.VoidCallback? onLoggedIn;
 
   @override
   String toString() {
@@ -126,28 +145,28 @@ class LoginRouteArgs {
 }
 
 /// generated route for
-/// [_i3.LoginRouterPage]
-class LoginRouter extends _i10.PageRouteInfo<void> {
-  const LoginRouter({List<_i10.PageRouteInfo>? children})
+/// [_i4.LoginRouterPage]
+class LoginRouter extends _i11.PageRouteInfo<void> {
+  const LoginRouter({List<_i11.PageRouteInfo>? children})
     : super(LoginRouter.name, initialChildren: children);
 
   static const String name = 'LoginRouter';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i3.LoginRouterPage();
+      return const _i4.LoginRouterPage();
     },
   );
 }
 
 /// generated route for
-/// [_i4.RegisterPage]
-class RegisterRoute extends _i10.PageRouteInfo<RegisterRouteArgs> {
+/// [_i5.RegisterPage]
+class RegisterRoute extends _i11.PageRouteInfo<RegisterRouteArgs> {
   RegisterRoute({
-    _i11.Key? key,
-    _i11.VoidCallback? onRegistered,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    _i12.VoidCallback? onRegistered,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
          RegisterRoute.name,
          args: RegisterRouteArgs(key: key, onRegistered: onRegistered),
@@ -156,13 +175,13 @@ class RegisterRoute extends _i10.PageRouteInfo<RegisterRouteArgs> {
 
   static const String name = 'RegisterRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RegisterRouteArgs>(
         orElse: () => const RegisterRouteArgs(),
       );
-      return _i4.RegisterPage(key: args.key, onRegistered: args.onRegistered);
+      return _i5.RegisterPage(key: args.key, onRegistered: args.onRegistered);
     },
   );
 }
@@ -170,9 +189,9 @@ class RegisterRoute extends _i10.PageRouteInfo<RegisterRouteArgs> {
 class RegisterRouteArgs {
   const RegisterRouteArgs({this.key, this.onRegistered});
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
-  final _i11.VoidCallback? onRegistered;
+  final _i12.VoidCallback? onRegistered;
 
   @override
   String toString() {
@@ -191,13 +210,13 @@ class RegisterRouteArgs {
 }
 
 /// generated route for
-/// [_i5.RestaurantsDetailPage]
+/// [_i6.RestaurantsDetailPage]
 class RestaurantsDetailRoute
-    extends _i10.PageRouteInfo<RestaurantsDetailRouteArgs> {
+    extends _i11.PageRouteInfo<RestaurantsDetailRouteArgs> {
   RestaurantsDetailRoute({
     required String restaurantsId,
-    _i11.Key? key,
-    List<_i10.PageRouteInfo>? children,
+    _i12.Key? key,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
          RestaurantsDetailRoute.name,
          args: RestaurantsDetailRouteArgs(
@@ -209,11 +228,11 @@ class RestaurantsDetailRoute
 
   static const String name = 'RestaurantsDetailRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RestaurantsDetailRouteArgs>();
-      return _i5.RestaurantsDetailPage(
+      return _i6.RestaurantsDetailPage(
         restaurantsId: args.restaurantsId,
         key: args.key,
       );
@@ -226,7 +245,7 @@ class RestaurantsDetailRouteArgs {
 
   final String restaurantsId;
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
@@ -245,65 +264,65 @@ class RestaurantsDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i6.RestaurantsListingPage]
-class RestaurantsListingRoute extends _i10.PageRouteInfo<void> {
-  const RestaurantsListingRoute({List<_i10.PageRouteInfo>? children})
+/// [_i7.RestaurantsListingPage]
+class RestaurantsListingRoute extends _i11.PageRouteInfo<void> {
+  const RestaurantsListingRoute({List<_i11.PageRouteInfo>? children})
     : super(RestaurantsListingRoute.name, initialChildren: children);
 
   static const String name = 'RestaurantsListingRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i6.RestaurantsListingPage();
+      return const _i7.RestaurantsListingPage();
     },
   );
 }
 
 /// generated route for
-/// [_i7.RestaurantsRouterPage]
-class RestaurantsRouter extends _i10.PageRouteInfo<void> {
-  const RestaurantsRouter({List<_i10.PageRouteInfo>? children})
+/// [_i8.RestaurantsRouterPage]
+class RestaurantsRouter extends _i11.PageRouteInfo<void> {
+  const RestaurantsRouter({List<_i11.PageRouteInfo>? children})
     : super(RestaurantsRouter.name, initialChildren: children);
 
   static const String name = 'RestaurantsRouter';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i7.RestaurantsRouterPage();
+      return const _i8.RestaurantsRouterPage();
     },
   );
 }
 
 /// generated route for
-/// [_i8.SettingsPage]
-class SettingsRoute extends _i10.PageRouteInfo<void> {
-  const SettingsRoute({List<_i10.PageRouteInfo>? children})
+/// [_i9.SettingsPage]
+class SettingsRoute extends _i11.PageRouteInfo<void> {
+  const SettingsRoute({List<_i11.PageRouteInfo>? children})
     : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i8.SettingsPage();
+      return const _i9.SettingsPage();
     },
   );
 }
 
 /// generated route for
-/// [_i9.SplashPage]
-class SplashRoute extends _i10.PageRouteInfo<void> {
-  const SplashRoute({List<_i10.PageRouteInfo>? children})
+/// [_i10.SplashPage]
+class SplashRoute extends _i11.PageRouteInfo<void> {
+  const SplashRoute({List<_i11.PageRouteInfo>? children})
     : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i9.SplashPage();
+      return const _i10.SplashPage();
     },
   );
 }

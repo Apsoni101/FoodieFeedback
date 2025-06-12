@@ -486,6 +486,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No reviews yet'**
   String get noReviewsYet;
+
+  /// No description provided for @restaurantName.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant Name'**
+  String get restaurantName;
+
+  /// No description provided for @errorRestaurantName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter restaurant name'**
+  String get errorRestaurantName;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @errorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter description'**
+  String get errorDescription;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @errorAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter address'**
+  String get errorAddress;
+
+  /// No description provided for @cuisine.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuisine Type'**
+  String get cuisine;
+
+  /// No description provided for @errorCuisine.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter cuisine type'**
+  String get errorCuisine;
+
+  /// No description provided for @currentlyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently Open'**
+  String get currentlyOpen;
+
+  /// No description provided for @restaurantImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant Image'**
+  String get restaurantImage;
+
+  /// No description provided for @pickImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Image'**
+  String get pickImage;
+
+  /// No description provided for @changeImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Image'**
+  String get changeImage;
+
+  /// No description provided for @restaurantAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant added successfully!'**
+  String get restaurantAdded;
+
+  /// No description provided for @imageRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an image'**
+  String get imageRequired;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @addRestaurantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Restaurant'**
+  String get addRestaurantTitle;
+
+  /// No description provided for @pleaseSelectImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an image'**
+  String get pleaseSelectImage;
+
+  /// No description provided for @pleaseSpecifyOpenStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Please specify if the restaurant is open'**
+  String get pleaseSpecifyOpenStatus;
+
+  /// No description provided for @restaurantAddedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant added successfully!'**
+  String get restaurantAddedSuccess;
+
+  /// No description provided for @errorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String errorMessage(Object message);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

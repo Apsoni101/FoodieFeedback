@@ -18,6 +18,10 @@ AutoRoute restaurantsListingRoute(final AuthGuard authGuard) => AutoRoute(
       page: RestaurantsDetailRoute.page,
       path: RoutePaths.restaurantsDetail,
     ),
+    AutoRoute(
+      page: AddRestaurantScreen.page,
+      path: RoutePaths.restaurantsAdding,
+    ),
     AutoRoute(page: AddReviewRoute.page, path: RoutePaths.addReview),
     AutoRoute(page: SettingsRoute.page, path: RoutePaths.settings),
   ],

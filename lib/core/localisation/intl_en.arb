@@ -63,6 +63,25 @@
   "appSubtitle": "Bite 🍽️, rate ⭐, repeat 🔄",
   "enterName": "Enter your name",
   "name": "Name",
-  "noReviewsYet": "No reviews yet"
-
+  "noReviewsYet": "No reviews yet",
+  "restaurantName": "Restaurant Name",
+  "errorRestaurantName": "Please enter restaurant name",
+  "description": "Description",
+  "errorDescription": "Please enter description",
+  "address": "Address",
+  "errorAddress": "Please enter address",
+  "cuisine": "Cuisine Type",
+  "errorCuisine": "Please enter cuisine type",
+  "currentlyOpen": "Currently Open",
+  "restaurantImage": "Restaurant Image",
+  "pickImage": "Pick Image",
+  "changeImage": "Change Image",
+  "restaurantAdded": "Restaurant added successfully!",
+  "imageRequired": "Please select an image",
+  "error": "Error",
+  "addRestaurantTitle": "Add Restaurant",
+  "pleaseSelectImage": "Please select an image",
+  "pleaseSpecifyOpenStatus": "Please specify if the restaurant is open",
+  "restaurantAddedSuccess": "Restaurant added successfully!",
+  "errorMessage": "Error: {message}"
 }

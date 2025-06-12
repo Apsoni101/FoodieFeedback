@@ -44,7 +44,6 @@ class RestaurantDetailBloc
                 name: restaurant.name,
                 description: restaurant.description,
                 imageUrl: restaurant.imageUrl,
-                images: restaurant.images,
                 rating: restaurant.rating,
                 address: restaurant.address,
                 cuisine: restaurant.cuisine,

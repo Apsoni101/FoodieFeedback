@@ -7,17 +7,19 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodiefeedback/core/constants/app_assets.dart';
+import 'package:foodiefeedback/core/constants/app_constants.dart';
 import 'package:foodiefeedback/core/services/error/failure.dart';
+import 'package:foodiefeedback/core/services/networking/network_constants.dart';
+import 'package:foodiefeedback/core/services/networking/network_service.dart';
 import 'package:foodiefeedback/core/services/notification/notification_service.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 class FCMService implements NotificationService {
-  FCMService({required this.projectId}) {
+  FCMService({required this.networkService}) {
     _instance = this;
   }
 
-  final Dio _dio = Dio();
-  final String projectId;
+  final NetworkService networkService;
 
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -34,7 +36,7 @@ class FCMService implements NotificationService {
     await _requestPermission();
 
     try {
-      const String topic = 'restaurant-updates';//hardcoded
+      const String topic = AppsConstants.restaurantsCollection;
       await FirebaseMessaging.instance.subscribeToTopic(topic);
     } catch (_) {}
 
@@ -101,13 +103,12 @@ class FCMService implements NotificationService {
 
     if (notification != null && android != null) {
       await _localNotificationsPlugin.show(
-
         notification.hashCode,
         notification.title,
         notification.body,
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            'default_channel_id',//check
+            'default_channel_id', //check
             'Default Channel',
             channelDescription:
                 'Used for displaying FCM notifications in foreground',
@@ -118,18 +119,16 @@ class FCMService implements NotificationService {
         payload: json.encode(message.data),
       );
     }
-  }//study well
+  } //study well
 
   static String _buildDeepLinkUrl(
     final String? route,
     final String? restaurantId,
   ) {
-
     switch (route) {
       case 'restaurant_detail':
         if (restaurantId != null) {
-          final String deepLink =
-              '/restaurantsListingTab/detail/$restaurantId';
+          final String deepLink = '/restaurantsListingTab/detail/$restaurantId';
           return deepLink;
         }
         return '/restaurantsListingTab';
@@ -149,7 +148,6 @@ class FCMService implements NotificationService {
 
   static void _processDeepLink(final String deepLinkData) {
     try {
-
       Map<String, dynamic> linkData;
       try {
         linkData = json.decode(deepLinkData);
@@ -159,7 +157,6 @@ class FCMService implements NotificationService {
 
       final String? route = linkData['deep_link'] ?? linkData['route'];
       final String? restaurantId = linkData['restaurant_id'];
-
 
       final String deepLinkUrl = _buildDeepLinkUrl(route, restaurantId);
       _pendingDeepLink = deepLinkUrl;
@@ -183,11 +180,13 @@ class FCMService implements NotificationService {
     final String? restaurantId,
     final Map<String, String>? additionalData,
   }) async {
-    final String url =
-        'https://fcm.googleapis.com/v1/projects/$projectId/messages:send';
-
     try {
       final String accessToken = await _getAccessToken();
+
+      final String path = NetworkConstants.sendNotificationPath.replaceAll(
+        '{project_id}',
+        NetworkConstants.projectId,
+      );
 
       final Map<String, String> notificationData = <String, String>{
         if (deepLink != null) 'deep_link': deepLink,
@@ -208,19 +207,19 @@ class FCMService implements NotificationService {
         },
       };
 
-      await _dio.post(
-        url,
-        options: Options(
-          headers: <String, String>{
-            'Authorization': 'Bearer $accessToken',
-            'Content-Type': 'application/json',
-          },
-        ),
-        data: json.encode(payload),
-      );
-      return right(unit);
+      final Either<Failure, Response<dynamic>> result = await networkService
+          .postPath(
+            path,
+            data: payload,
+            headers: <String, String>{
+              NetworkConstants.authorizationHeader: 'Bearer $accessToken',
+              'Content-Type': NetworkConstants.contentTypeJson,
+            },
+          );
+
+      return result.fold((failure) => Left(failure), (_) => const Right(unit));
     } catch (e) {
-      return left(Failure(e.toString()));
+      return Left(Failure("Unexpected error: ${e.toString()}"));
     }
   }
 

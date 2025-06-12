@@ -204,4 +204,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get restaurantName => 'Restaurant Name';
+
+  @override
+  String get errorRestaurantName => 'Please enter restaurant name';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get errorDescription => 'Please enter description';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get errorAddress => 'Please enter address';
+
+  @override
+  String get cuisine => 'Cuisine Type';
+
+  @override
+  String get errorCuisine => 'Please enter cuisine type';
+
+  @override
+  String get currentlyOpen => 'Currently Open';
+
+  @override
+  String get restaurantImage => 'Restaurant Image';
+
+  @override
+  String get pickImage => 'Pick Image';
+
+  @override
+  String get changeImage => 'Change Image';
+
+  @override
+  String get restaurantAdded => 'Restaurant added successfully!';
+
+  @override
+  String get imageRequired => 'Please select an image';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get addRestaurantTitle => 'Add Restaurant';
+
+  @override
+  String get pleaseSelectImage => 'Please select an image';
+
+  @override
+  String get pleaseSpecifyOpenStatus => 'Please specify if the restaurant is open';
+
+  @override
+  String get restaurantAddedSuccess => 'Restaurant added successfully!';
+
+  @override
+  String errorMessage(Object message) {
+    return 'Error: $message';
+  }
 }

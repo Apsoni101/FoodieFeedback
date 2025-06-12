@@ -15,6 +15,7 @@ class RestaurantsListBloc
   RestaurantsListBloc({required this.useCases})
     : super(RestaurantsListInitial()) {
     on<RestaurantsListFetching>(_onRestaurantsListFetching);
+    on<RestaurantsListUpdated>(_restaurantsListUpdated);
     on<SearchQuery>(_searchQuery);
   }
 
@@ -25,14 +26,26 @@ class RestaurantsListBloc
     final Emitter<RestaurantsListState> emit,
   ) async {
     emit(RestaurantsListLoading());
-    final Either<Failure, List<RestaurantEntity>> result =
-        await useCases.getAllRestaurants();
-    result.fold(
-      (final Failure failure) =>
-          emit(RestaurantsListFailure(message: failure.message)),
-      (final List<RestaurantEntity> restaurants) =>
-          emit(RestaurantsListLoaded(restaurants: restaurants)),
-    );
+
+    await useCases.listenToAllRestaurants().forEach((
+      final Either<Failure, List<RestaurantEntity>> result,
+    ) {
+      result.fold(
+        (final Failure failure) {
+          emit(RestaurantsListFailure(message: failure.message));
+        },
+        (final List<RestaurantEntity> restaurants) {
+          add(RestaurantsListUpdated(restaurants));
+        },
+      );
+    });
+  }
+
+  Future<void> _restaurantsListUpdated(
+    final RestaurantsListUpdated event,
+    final Emitter<RestaurantsListState> emit,
+  ) async {
+    emit(RestaurantsListLoaded(restaurants: event.restaurants));
   }
 
   Future<void> _searchQuery(
@@ -40,22 +53,26 @@ class RestaurantsListBloc
     final Emitter<RestaurantsListState> emit,
   ) async {
     emit(RestaurantsListLoading());
-    final Either<Failure, List<RestaurantEntity>> result =
-        await useCases.getAllRestaurants();
-    result.fold(
-      (final Failure failure) =>
-          emit(RestaurantsListFailure(message: failure.message)),
-      (final List<RestaurantEntity> restaurants) {
-        final List<RestaurantEntity> updatedList =
-            restaurants
-                .where(
-                  (final RestaurantEntity restaurant) => restaurant.name.toLowerCase().contains(
-                    event.query.toLowerCase(),
-                  ),
-                )
-                .toList();
-        return emit(RestaurantsListLoaded(restaurants: updatedList));
-      },
-    );
+
+    await useCases.listenToAllRestaurants().forEach((
+      final Either<Failure, List<RestaurantEntity>> result,
+    ) {
+      result.fold(
+        (final Failure failure) {
+          emit(RestaurantsListFailure(message: failure.message));
+        },
+        (final List<RestaurantEntity> restaurants) {
+          final List<RestaurantEntity> filtered =
+              restaurants
+                  .where(
+                    (final RestaurantEntity restaurant) => restaurant.name
+                        .toLowerCase()
+                        .contains(event.query.toLowerCase()),
+                  )
+                  .toList();
+          add(RestaurantsListUpdated(filtered));
+        },
+      );
+    });
   }
 }

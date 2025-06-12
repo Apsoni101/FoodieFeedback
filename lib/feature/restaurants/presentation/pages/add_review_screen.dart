@@ -2,14 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodiefeedback/core/di/app_injector.dart';
-import 'package:foodiefeedback/core/extensions/context_extensions.dart';
+import 'package:foodiefeedback/core/extensions/context_extensions/context_extensions.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/bloc/review_bloc/review_bloc.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/widgets/add_review_page_body.dart';
 
 @RoutePage()
 class AddReviewPage extends StatelessWidget {
   const AddReviewPage({required this.restaurantId, super.key});
-
   final String restaurantId;
 
   @override

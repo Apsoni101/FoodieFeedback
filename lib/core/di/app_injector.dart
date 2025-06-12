@@ -1,8 +1,9 @@
-import 'package:foodiefeedback/core/constants/app_constants.dart';
 import 'package:foodiefeedback/core/navigation/auth_guard.dart';
 import 'package:foodiefeedback/core/services/firebase/crashlytics_service.dart';
 import 'package:foodiefeedback/core/services/firebase/firebase_auth%20_service.dart';
 import 'package:foodiefeedback/core/services/firebase/firebase_firestore_service.dart';
+import 'package:foodiefeedback/core/services/firebase/firebase_storage_service.dart';
+import 'package:foodiefeedback/core/services/networking/network_service.dart';
 import 'package:foodiefeedback/core/services/notification/fcm_service.dart';
 import 'package:foodiefeedback/core/services/notification/notification_service.dart';
 import 'package:foodiefeedback/core/services/storage%20/shared_prefs_service.dart';
@@ -17,6 +18,7 @@ import 'package:foodiefeedback/feature/restaurants/data/data_sources/restaurants
 import 'package:foodiefeedback/feature/restaurants/data/repositories/restaurants_repository_impl.dart';
 import 'package:foodiefeedback/feature/restaurants/domain/repositories/restaurants_repository.dart';
 import 'package:foodiefeedback/feature/restaurants/domain/use_cases/restaurants_use_case.dart';
+import 'package:foodiefeedback/feature/restaurants/presentation/bloc/add_restaurant/add_restaurant_bloc.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/bloc/restaurants_detail_bloc/restaurant_detail_bloc.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/bloc/restaurants_listing_bloc/restaurants_listing_bloc.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/bloc/review_bloc/review_bloc.dart';
@@ -37,10 +39,12 @@ class AppInjector {
       // Core Services
       ..registerLazySingleton(SharedPrefsService.new)
       ..registerLazySingleton(FirebaseAuthService.new)
+      ..registerLazySingleton(NetworkService.new)
       ..registerLazySingleton(FirebaseFirestoreService.new)
+      ..registerLazySingleton(FirebaseStorageService.new)
       ..registerLazySingleton(CrashlyticsService.new)
       ..registerLazySingleton<NotificationService>(
-        () => FCMService(projectId: AppsConstants.projectId),
+        () => FCMService(networkService: getIt<NetworkService>()),
       )
       // Auth Feature
       ..registerLazySingleton<AuthRemoteDataSource>(
@@ -78,6 +82,7 @@ class AppInjector {
         () => RestaurantRemoteDataSourceImpl(
           firestoreService: getIt<FirebaseFirestoreService>(),
           notificationService: getIt<NotificationService>(),
+          storageService: getIt<FirebaseStorageService>(),
         ),
       )
       ..registerLazySingleton<RestaurantsRepository>(
@@ -90,6 +95,9 @@ class AppInjector {
       )
       ..registerFactory<RestaurantsListBloc>(
         () => RestaurantsListBloc(useCases: getIt<RestaurantsUseCases>()),
+      )
+      ..registerFactory<AddRestaurantBloc>(
+        () => AddRestaurantBloc(useCases: getIt<RestaurantsUseCases>()),
       )
       ..registerFactory<RestaurantDetailBloc>(
         () => RestaurantDetailBloc(useCases: getIt<RestaurantsUseCases>()),

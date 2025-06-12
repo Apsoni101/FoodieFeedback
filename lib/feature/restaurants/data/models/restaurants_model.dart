@@ -8,7 +8,6 @@ class RestaurantModel extends RestaurantEntity {
     required super.name,
     required super.description,
     required super.imageUrl,
-    required super.images,
     required super.rating,
     required super.address,
     required super.cuisine,
@@ -22,7 +21,6 @@ class RestaurantModel extends RestaurantEntity {
         name: entity.name,
         description: entity.description,
         imageUrl: entity.imageUrl,
-        images: entity.images,
         rating: entity.rating,
         address: entity.address,
         cuisine: entity.cuisine,
@@ -31,14 +29,11 @@ class RestaurantModel extends RestaurantEntity {
       );
 
   factory RestaurantModel.fromMap(
-    final Map<String, dynamic> map, {
-    required final String id,
-  }) => RestaurantModel(
-    id: id,
+    final Map<String, dynamic> map, ) => RestaurantModel(
+    id: map['id'] ?? '',
     name: map['name'] ?? '',
     description: map['description'] ?? '',
     imageUrl: map['imageUrl'] ?? '',
-    images: List<String>.from(map['images'] ?? <String>[]),
     rating: (map['rating'] ?? 0).toDouble(),
     address: map['address'] ?? '',
     cuisine: map['cuisine'] ?? '',
@@ -50,10 +45,10 @@ class RestaurantModel extends RestaurantEntity {
   );
 
   Map<String, dynamic> toMap() => <String, dynamic>{
+    'id':id,
     'name': name,
     'description': description,
     'imageUrl': imageUrl,
-    'images': images,
     'rating': rating,
     'address': address,
     'cuisine': cuisine,
@@ -69,7 +64,6 @@ class RestaurantModel extends RestaurantEntity {
     name: name,
     description: description,
     imageUrl: imageUrl,
-    images: images,
     rating: rating,
     address: address,
     cuisine: cuisine,

@@ -4,7 +4,9 @@ import 'package:foodiefeedback/core/services/error/failure.dart';
 
 /// Firestore service similar to network  service
 class FirebaseFirestoreService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestoreService({final FirebaseFirestore? firestore})
+    : _firestore = firestore ?? FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
 
   /// Adds a document to a collection
   Future<Either<Failure, String>> addDocument({
@@ -16,8 +18,12 @@ class FirebaseFirestoreService {
           .collection(collectionPath)
           .add(data);
       return Right<Failure, String>(ref.id);
-    } on FirebaseException {
-      return Left<Failure, String>(Failure('Failed to add document: '));
+    } on FirebaseException catch (e) {
+      return Left<Failure, String>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, String>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -31,7 +37,11 @@ class FirebaseFirestoreService {
       await _firestore.collection(collectionPath).doc(docId).update(data);
       return const Right<Failure, Unit>(unit);
     } on FirebaseException catch (e) {
-      return Left<Failure, Unit>(Failure('Failed to update document: $e'));
+      return Left<Failure, Unit>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, Unit>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -44,7 +54,11 @@ class FirebaseFirestoreService {
       await _firestore.collection(collectionPath).doc(docId).delete();
       return const Right<Failure, Unit>(unit);
     } on FirebaseException catch (e) {
-      return Left<Failure, Unit>(Failure('Failed to delete document: $e'));
+      return Left<Failure, Unit>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, Unit>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -65,42 +79,36 @@ class FirebaseFirestoreService {
       }
     } on FirebaseException catch (e) {
       return Left<Failure, Map<String, dynamic>>(
-        Failure('Failed to fetch document: $e'),
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, Map<String, dynamic>>(
+        Failure('Unexpected error: $e'),
       );
     }
   }
 
-  /// Listens to a document in real-time
-  Stream<Either<Failure, Map<String, dynamic>>> listenToAllDocuments({
+  /// Listens to all documents in a collection in real-time
+  Stream<Either<Failure, List<Map<String, dynamic>>>> listenToAllDocuments({
     required final String collectionPath,
-    required final String docId,
   }) async* {
     try {
-      await for (final DocumentSnapshot<Map<String, dynamic>> docSnapshot
-          in _firestore.collection(collectionPath).doc(docId).snapshots()) {
-        if (docSnapshot.exists) {
-          final Map<String, dynamic>? data = docSnapshot.data();
-          if (data != null) {
-            yield Right<Failure, Map<String, dynamic>>(data);
-          } else {
-            yield Left<Failure, Map<String, dynamic>>(
-              Failure("Document data is null"),
-            );
-          }
-        } else {
-          yield Left<Failure, Map<String, dynamic>>(
-            Failure("Document does not exist"),
-          );
-        }
+      await for (final QuerySnapshot<Map<String, dynamic>> snapshot
+          in _firestore.collection(collectionPath).snapshots()) {
+        final List<Map<String, dynamic>> docs =
+            snapshot.docs.map((
+              final QueryDocumentSnapshot<Map<String, dynamic>> doc,
+            ) {
+              final Map<String, dynamic> data = doc.data();
+              return data;
+            }).toList();
+
+        yield Right(docs);
       }
     } on FirebaseException catch (e) {
-      yield Left<Failure, Map<String, dynamic>>(
-        Failure("Firestore error: ${e.message}"),
-      );
+      yield Left(Failure("Firestore error: ${e.message}"));
     } catch (e) {
-      yield Left<Failure, Map<String, dynamic>>(
-        Failure("Unexpected error: $e"),
-      );
+      yield Left(Failure("Unexpected error: $e"));
     }
   }
 
@@ -115,7 +123,6 @@ class FirebaseFirestoreService {
         if (docSnapshot.exists) {
           final Map<String, dynamic>? data = docSnapshot.data();
           if (data != null) {
-            data['id'] = docSnapshot.id;
             yield Right<Failure, Map<String, dynamic>>(data);
           } else {
             yield Left<Failure, Map<String, dynamic>>(
@@ -130,36 +137,11 @@ class FirebaseFirestoreService {
       }
     } on FirebaseException catch (e) {
       yield Left<Failure, Map<String, dynamic>>(
-        Failure("Firestore error: ${e.message}"),
+        Failure("Firestore error: ${e.message}", errorCode: e.code),
       );
     } catch (e) {
       yield Left<Failure, Map<String, dynamic>>(
         Failure("Unexpected error: $e"),
-      );
-    }
-  }
-
-  /// Fetches all documents from a collection once (Future-based)
-  Future<Either<Failure, List<Map<String, dynamic>>>> fetchAllDocuments({
-    required final String collectionPath,
-  }) async {
-    try {
-      final QuerySnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection(collectionPath).get();
-
-      final List<Map<String, dynamic>> docs =
-          snapshot.docs.map((
-            final QueryDocumentSnapshot<Map<String, dynamic>> doc,
-          ) {
-            final Map<String, dynamic> data = doc.data();
-            data['id'] = doc.id;
-            return data;
-          }).toList();
-
-      return Right<Failure, List<Map<String, dynamic>>>(docs);
-    } catch (e) {
-      return Left<Failure, List<Map<String, dynamic>>>(
-        Failure('Failed to fetch documents: $e'),
       );
     }
   }
@@ -173,8 +155,12 @@ class FirebaseFirestoreService {
     try {
       await _firestore.collection(collectionPath).doc(docId).set(data);
       return const Right<Failure, Unit>(unit);
-    } on FirebaseException {
-      return Left<Failure, Unit>(Failure('Failed to set data: '));
+    } on FirebaseException catch (e) {
+      return Left<Failure, Unit>(
+        Failure('Failed to set data: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, Unit>(Failure('Unexpected error: $e'));
     }
   }
 

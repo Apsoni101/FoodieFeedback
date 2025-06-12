@@ -204,4 +204,66 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noReviewsYet => 'لا توجد مراجعات حتى الآن';
+
+  @override
+  String get restaurantName => 'اسم المطعم';
+
+  @override
+  String get errorRestaurantName => 'يرجى إدخال اسم المطعم';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get errorDescription => 'يرجى إدخال الوصف';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get errorAddress => 'يرجى إدخال العنوان';
+
+  @override
+  String get cuisine => 'نوع المطبخ';
+
+  @override
+  String get errorCuisine => 'يرجى إدخال نوع المطبخ';
+
+  @override
+  String get currentlyOpen => 'مفتوح حالياً';
+
+  @override
+  String get restaurantImage => 'صورة المطعم';
+
+  @override
+  String get pickImage => 'اختر صورة';
+
+  @override
+  String get changeImage => 'تغيير الصورة';
+
+  @override
+  String get restaurantAdded => 'تمت إضافة المطعم بنجاح!';
+
+  @override
+  String get imageRequired => 'يرجى اختيار صورة';
+
+  @override
+  String get error => 'خطأ';
+
+  @override
+  String get addRestaurantTitle => 'أضف مطعماً';
+
+  @override
+  String get pleaseSelectImage => 'يرجى اختيار صورة';
+
+  @override
+  String get pleaseSpecifyOpenStatus => 'يرجى تحديد ما إذا كان المطعم مفتوحًا';
+
+  @override
+  String get restaurantAddedSuccess => 'تمت إضافة المطعم بنجاح!';
+
+  @override
+  String errorMessage(Object message) {
+    return 'خطأ: $message';
+  }
 }

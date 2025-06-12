@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodiefeedback/core/constants/app_colors.dart';
 import 'package:foodiefeedback/core/constants/app_text_styles.dart';
-import 'package:foodiefeedback/core/extensions/context_extensions.dart';
+import 'package:foodiefeedback/core/extensions/context_extensions/context_extensions.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/bloc/review_bloc/review_bloc.dart';
 import 'package:foodiefeedback/feature/restaurants/presentation/widgets/add_review_page_actions.dart';
 
@@ -28,7 +28,8 @@ class _AddReviewPageBodyState extends State<AddReviewPageBody> {
 
   @override
   Widget build(final BuildContext context) =>
-      BlocBuilder<ReviewBloc, ReviewState>(// can be done by records with bloc selector
+      BlocBuilder<ReviewBloc, ReviewState>(
+        // can be done by records with bloc selector
         builder: (final BuildContext context, final ReviewState state) {
           final ReviewBloc bloc = context.read<ReviewBloc>();
 
@@ -70,17 +71,14 @@ class _AddReviewPageBodyState extends State<AddReviewPageBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List<Widget>.generate(
                         5,
-                        (final int index) => InkWell(
-                          onTap: () {
+                        (final int index) => IconButton(
+                          onPressed: () {
                             bloc.add(ReviewRatingChanged(index + 1));
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Icon(
-                              index < rating ? Icons.star : Icons.star_border,
-                              color: AppColors.amber,
-                              size: 40,
-                            ),
+                          icon: Icon(
+                            index < rating ? Icons.star : Icons.star_border,
+                            color: AppColors.amber,
+                            size: 40,
                           ),
                         ),
                       ),
@@ -107,10 +105,14 @@ class _AddReviewPageBodyState extends State<AddReviewPageBody> {
               ),
               const Spacer(),
               AddReviewPageActions(
-                restaurantId: widget.restaurantId,
-                name: _nameController.text.trim(),
-                comment: _commentController.text.trim(),
-                onSubmit: (){
+                onSubmit: () {
+                 bloc.add(
+                    AddReviewSubmitted(
+                      restaurantId: widget.restaurantId,
+                      name: _nameController.text.trim(),
+                      comment: _commentController.text.trim(),
+                    ),
+                  );
                   _nameController.clear();
                   _commentController.clear();
                 },

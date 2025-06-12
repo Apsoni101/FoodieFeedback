@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:foodiefeedback/core/services/error/failure.dart';
 import 'package:foodiefeedback/feature/restaurants/data/data_sources/restaurants_remote_data_source.dart';
@@ -31,18 +33,8 @@ class RestaurantsRepositoryImpl implements RestaurantsRepository {
   );
 
   @override
-  Future<Either<Failure, List<RestaurantEntity>>> getAllRestaurants() async {
-    final Either<Failure, List<RestaurantModel>> result =
-        await remoteDataSource.getAllRestaurants();
-
-    return result.fold(
-      Left.new,
-      (final List<RestaurantModel> restaurantModels) =>
-          Right<Failure, List<RestaurantEntity>>(
-            restaurantModels.cast<RestaurantEntity>(),
-          ),
-    );
-  }
+  Stream<Either<Failure, List<RestaurantEntity>>> listenToAllRestaurants() =>
+      remoteDataSource.listenToAllRestaurants();
 
   @override
   Stream<Either<Failure, RestaurantEntity>> listenToSingleRestaurant(
@@ -53,4 +45,18 @@ class RestaurantsRepositoryImpl implements RestaurantsRepository {
         (final Either<Failure, RestaurantModel> either) =>
             either.fold(Left.new, Right.new),
       );
+
+  @override
+  Future<Either<Failure, String>> addRestaurant({
+    required final RestaurantEntity restaurant,
+    final File? image,
+  })  {
+    final RestaurantModel restaurantModel = RestaurantModel.fromEntity(
+      restaurant,
+    );
+    return remoteDataSource.addRestaurant(
+      restaurant: restaurantModel,
+      image: image,
+    );
+  }
 }

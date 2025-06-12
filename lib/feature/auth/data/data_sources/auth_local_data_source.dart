@@ -14,7 +14,6 @@ abstract class AuthLocalDataSource {
 
   /// Remove saved user credentials
   Future<Either<Failure, Unit>> removeSavedUserCredentials();
-
 }
 
 /// Implementation of auth local data source using SharedPreferences
@@ -57,7 +56,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
           UserModel(uid: uid, name: name, email: email),
         );
       }
-
       return const Right<Failure, UserModel?>(null);
     } catch (e) {
       return Left<Failure, UserModel?>(
@@ -78,6 +76,4 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       );
     }
   }
-
-
 }

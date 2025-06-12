@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodiefeedback/core/constants/app_colors.dart';
 import 'package:foodiefeedback/core/constants/app_text_styles.dart';
-import 'package:foodiefeedback/core/extensions/context_extensions.dart';
+import 'package:foodiefeedback/core/extensions/context_extensions/context_extensions.dart';
 import 'package:foodiefeedback/feature/settings/presentation/bloc/settings_bloc.dart';
 import 'package:foodiefeedback/feature/settings/presentation/widgets/change_language_row.dart';
 import 'package:foodiefeedback/feature/settings/presentation/widgets/change_theme_row.dart';

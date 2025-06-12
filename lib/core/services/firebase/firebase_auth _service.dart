@@ -5,9 +5,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 ///firebase service similar to network service
 class FirebaseAuthService {
+  FirebaseAuthService({final FirebaseAuth? auth})
+      : auth = auth ?? FirebaseAuth.instance;
   ///firebase auth instance
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
+  final FirebaseAuth auth;
   ///used for signIn with email and password
   Future<Either<Failure, User>> signUpWithEmail(
     final String email,
@@ -20,7 +21,15 @@ class FirebaseAuthService {
       );
       return Right<Failure, User>(result.user!);
     } on FirebaseAuthException catch (e) {
-      return Left<Failure, User>(Failure(e.message ?? "SignUp failed"));
+      return Left<Failure, User>(
+        Failure(e.message ?? "SignUp failed", errorCode: e.code),
+      );
+    }on FirebaseException catch (e) {
+      return Left<Failure, User>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, User>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -36,7 +45,15 @@ class FirebaseAuthService {
       );
       return Right<Failure, User>(result.user!);
     } on FirebaseAuthException catch (e) {
-      return Left<Failure, User>(Failure(e.message ?? "Login failed"));
+      return Left<Failure, User>(
+        Failure(e.message ?? "Login failed", errorCode: e.code),
+      );
+    }on FirebaseException catch (e) {
+      return Left<Failure, User>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, User>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -46,7 +63,15 @@ class FirebaseAuthService {
       await auth.signOut();
       return const Right<Failure, Unit>(unit);
     } on FirebaseAuthException catch (e) {
-      return Left<Failure, Unit>(Failure("Something went wrong $e"));
+      return Left<Failure, Unit>(
+        Failure("Something went wrong $e", errorCode: e.code),
+      );
+    } on FirebaseException catch (e) {
+      return Left<Failure, Unit>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, Unit>(Failure('Unexpected error: $e'));
     }
   }
 
@@ -64,6 +89,12 @@ class FirebaseAuthService {
       return Right<Failure, User>(result.user!);
     } on FirebaseAuthException catch (e) {
       return Left<Failure, User>(Failure(e.message ?? "Login failed"));
+    } on FirebaseException catch (e) {
+      return Left<Failure, User>(
+        Failure('Firebase error: ${e.message}', errorCode: e.code),
+      );
+    } catch (e) {
+      return Left<Failure, User>(Failure('Unexpected error: $e'));
     }
   }
 }

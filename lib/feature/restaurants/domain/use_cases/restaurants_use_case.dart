@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:foodiefeedback/core/services/error/failure.dart';
 import 'package:foodiefeedback/feature/restaurants/domain/entities/restaurants_entity.dart';
@@ -12,8 +14,8 @@ class RestaurantsUseCases {
   Future<Either<Failure, RestaurantEntity>> getRestaurant(final String id) =>
       repository.getRestaurant(id);
 
-  Future<Either<Failure, List<RestaurantEntity>>> getAllRestaurants() =>
-      repository.getAllRestaurants();
+  Stream<Either<Failure, List<RestaurantEntity>>> listenToAllRestaurants() =>
+      repository.listenToAllRestaurants();
 
   Future<Either<Failure, Unit>> addReview({
     required final String restaurantId,
@@ -23,4 +25,9 @@ class RestaurantsUseCases {
   Stream<Either<Failure, RestaurantEntity>> listenToSingleRestaurant(
     final String id,
   ) => repository.listenToSingleRestaurant(id);
+
+  Future<Either<Failure, String>> addRestaurant({
+    required final RestaurantEntity restaurant,
+    final File? image,
+  })=>repository.addRestaurant(restaurant: restaurant,image: image);
 }

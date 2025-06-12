@@ -28,8 +28,6 @@ abstract class AuthRemoteDataSource {
 
   ///used for checking signIn
   bool isSignedIn();
-
-
 }
 
 /// auth data source implementation for calling firebaseAuth service
@@ -53,33 +51,31 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       email,
       password,
     );
-    return result.fold(Left.new, (final User user) async{
+    return result.fold(Left.new, (final User user) async {
       final Either<Failure, Map<String, dynamic>> userData =
           await firestoreService.getDocument(
-        collectionPath: 'users',
-        docId: user.uid,
-      );
+            collectionPath: 'users',
+            docId: user.uid,
+          );
 
       return userData.fold(
-            (final Failure failure) {// do by parsing
-          final UserModel fallbackUser = UserModel(
-            uid: user.uid,
-            email: user.email ?? '',
-            name: user.displayName ?? '',
-          );
-          return Right(fallbackUser);
+        (final Failure failure) {
+          try {
+            final UserModel fallbackUser = UserModel.fromFirebaseUser(user);
+            return Right(fallbackUser);
+          } catch (e) {
+            return Left(Failure('Failed to parse Firebase user: $e'));
+          }
         },
-            (final Map<String, dynamic> data) {
-          final UserModel userModel = UserModel(
-            uid: user.uid,
-            email: user.email ?? '',
-            name: data['name'] ?? '',
-          );
-          return Right(userModel);
+        (final Map<String, dynamic> data) {
+          try {
+            final UserModel userModel = UserModel.fromFirestore(data: data);
+            return Right(userModel);
+          } catch (e) {
+            return Left(Failure('Failed to parse Firestore user: $e'));
+          }
         },
       );
-
-
     });
   }
 
@@ -95,20 +91,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return userData.fold(
         (final Failure failure) {
-          final UserModel fallbackUser = UserModel(
-            uid: user.uid,
-            email: user.email ?? '',
-            name: user.displayName ?? '',
-          );
-          return Right(fallbackUser);
+          try {
+            final UserModel fallbackUser = UserModel.fromFirebaseUser(user);
+            return Right(fallbackUser);
+          } catch (e) {
+            return Left(Failure('Failed to parse Firebase user: $e'));
+          }
         },
         (final Map<String, dynamic> data) {
-          final UserModel userModel = UserModel(
-            uid: user.uid,
-            email: user.email ?? '',
-            name: data['name'] ?? '',
-          );
-          return Right(userModel);
+          try {
+            final UserModel userModel = UserModel.fromFirestore(data: data);
+            return Right(userModel);
+          } catch (e) {
+            return Left(Failure('Failed to parse Firestore user: $e'));
+          }
         },
       );
     });
@@ -129,12 +125,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
     return result.fold(Left.new, (final User user) async {
       try {
+        final UserModel userModel = UserModel.fromFirebaseUser(user);
         await firestoreService.setData(
           collectionPath: 'users',
           docId: user.uid,
-          data: UserModel(uid: user.uid, email: email, name: name).toJson(),
+          data: userModel.toJson(),
         );
-        return Right<Failure, UserModel>(UserModel.fromFirebaseUser(user));
+        return Right<Failure, UserModel>(userModel);
       } catch (e) {
         return Left<Failure, UserModel>(Failure("User mapping failed: $e"));
       }
@@ -143,5 +140,4 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   bool isSignedIn() => authService.auth.currentUser != null;
-
 }
